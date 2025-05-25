@@ -3,26 +3,6 @@
 TIM_HandleTypeDef htim3;
 DMA_HandleTypeDef hdma_tim3_ch2;
 
-void MX_DMA_Init(void)
-{
-    __HAL_RCC_DMA1_CLK_ENABLE();
-
-    hdma_tim3_ch2.Instance = DMA1_Channel2;
-    hdma_tim3_ch2.Init.Direction = DMA_MEMORY_TO_PERIPH;
-    hdma_tim3_ch2.Init.PeriphInc = DMA_PINC_DISABLE;
-    hdma_tim3_ch2.Init.MemInc = DMA_MINC_ENABLE;
-    hdma_tim3_ch2.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
-    hdma_tim3_ch2.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
-    hdma_tim3_ch2.Init.Mode = DMA_NORMAL;
-    hdma_tim3_ch2.Init.Priority = DMA_PRIORITY_LOW;
-    HAL_DMA_Init(&hdma_tim3_ch2);
-
-    __HAL_LINKDMA(&htim3, hdma[TIM_DMA_ID_CC2], hdma_tim3_ch2);
-
-    HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
-}
-
 void MX_TIM3_Init(void)
 {
     TIM_ClockConfigTypeDef sClockSourceConfig = {0};
