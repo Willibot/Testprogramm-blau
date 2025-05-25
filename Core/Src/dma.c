@@ -47,9 +47,11 @@ void MX_DMA_Init(void)
   HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
 
+  // DMA mit Timer verknüpfen (das Makro muss hier stehen!)
+  __HAL_LINKDMA(&htim3, hdma_cc2, hdma_tim3_ch2);
 }
 
 /* USER CODE BEGIN 2 */
-__HAL_LINKDMA(&htim3, hdma_cc2, hdma_tim3_ch2);
+
 /* USER CODE END 2 */
 
