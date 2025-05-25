@@ -50,6 +50,6 @@ void MX_DMA_Init(void)
 }
 
 /* USER CODE BEGIN 2 */
-__HAL_LINKDMA(&htim3, hdma[TIM_DMA_ID_CC2], hdma_tim3_ch2);
+__HAL_LINKDMA(&htim3, hdma_cc2, hdma_tim3_ch2);
 /* USER CODE END 2 */
 
