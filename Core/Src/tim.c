@@ -44,7 +44,6 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
     }
 }
 
-void MX_DMA_Init(void)
 {
     __HAL_RCC_DMA1_CLK_ENABLE();
 
