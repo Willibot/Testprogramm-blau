@@ -11,7 +11,7 @@ void MX_TIM3_Init(void)
     htim3.Instance = TIM3;
     htim3.Init.Prescaler = 0;
     htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-    htim3.Init.Period = 89; // 72MHz/800kHz = 90 (Period-1)
+    htim3.Init.Period = 79; // 64MHz/800kHz = 80 (Period-1)
     htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
     htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
     HAL_TIM_Base_Init(&htim3);
@@ -26,18 +26,15 @@ void MX_TIM3_Init(void)
     sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
     sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
     HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2);
-    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 45); // 50% Dutycycle bei Period=89
+    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 40); // 50% Dutycycle bei Period=79
 }
 
-void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim)
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     if(htim->Instance==TIM3)
     {
         __HAL_RCC_GPIOA_CLK_ENABLE();
-        /**TIM3 GPIO Configuration
-        PA7     ------> TIM3_CH2
-        */
         GPIO_InitStruct.Pin = GPIO_PIN_7;
         GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
         GPIO_InitStruct.Pull = GPIO_NOPULL;

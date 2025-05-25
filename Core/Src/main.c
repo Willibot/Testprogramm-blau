@@ -8,7 +8,25 @@ volatile uint32_t systick_ms = 0;
 
 void SystemClock_Config(void)
 {
-    // TODO: Füge hier deine Takt-Konfiguration ein, falls benötigt
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+    RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+    RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV1;
+    RCC_OscInitStruct.PLL.PLLN = 8;
+    RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
+    HAL_RCC_OscConfig(&RCC_OscInitStruct);
+
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                             |RCC_CLOCKTYPE_PCLK1;
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2);
 }
 
 int main(void)
@@ -20,24 +38,17 @@ int main(void)
     MX_DMA_Init();
     MX_TIM3_Init();
 
-    Ws2812b_Init(&htim3, TIM3);
-    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+    // PWM-Test: PA7 sollte jetzt ein Rechtecksignal zeigen!
+    if (HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2) != HAL_OK) {
+        // Fehler: z.B. PA11 auf HIGH setzen
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
+        while(1);
+    }
+    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 40);
 
     while (1)
     {
-        for (uint16_t pos = 0; pos < PIXELS_COUNT; ++pos)
-        {
-            // Alle aus
-            for (uint16_t i = 0; i < PIXELS_COUNT; ++i)
-                Ws2812b_SetPixel_RGB(&COLOR_OFF, i);
-
-            // Eine LED pink
-            Ws2812b_SetPixel_RGB(&COLOR_PINK, pos);
-
-            // Senden und warten
-            Ws2812b_Show_without_Delay();
-            HAL_Delay(60);
-        }
+        // leer lassen
     }
 }
 

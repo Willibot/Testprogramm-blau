@@ -5,6 +5,9 @@
  */
 
 #include "ws2812b.h"
+#include "tim.h" // <-- hinzufügen
+
+extern DMA_HandleTypeDef hdma_tim3_ch2; // <-- hinzufügen
 
 #define BYTE            8
 #define BITS_IN_PIXEL   24
@@ -59,12 +62,8 @@ void Ws2812b_SetStrip_RGB(const RGB *color)
 
 void Ws2812b_Show_without_Delay(void)
 {
-    if (ws2812b_htim) {
-        HAL_DMA_DeInit(&hdma_tim3_ch2);
-        HAL_DMA_Init(&hdma_tim3_ch2);
-        HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_2, (uint32_t*)ws2812b_buffer, LEDS_COUNT);
-        __HAL_TIM_ENABLE_DMA(&htim3, TIM_DMA_CC2); // explizit DMA-Request aktivieren
-    }
+    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 45); // 50% Dutycycle
 }
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
