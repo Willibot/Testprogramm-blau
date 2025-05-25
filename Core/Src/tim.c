@@ -13,7 +13,7 @@ void MX_TIM3_Init(void)
     htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
     htim3.Init.Period = 79; // 64MHz/800kHz = 80 (Period-1)
     htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-    htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+    htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
     HAL_TIM_Base_Init(&htim3);
 
     sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
