@@ -20,6 +20,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "dma.h"
+#include "tim.h" // Damit die Handles bekannt sind
+
+extern DMA_HandleTypeDef hdma_tim3_ch2;
+extern TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN 0 */
 
@@ -47,8 +51,8 @@ void MX_DMA_Init(void)
   HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
 
-  // DMA mit Timer verknüpfen (das Makro muss hier stehen!)
-  __HAL_LINKDMA(&htim3, hdma_cc2, hdma_tim3_ch2);
+  // Korrekte Verknüpfung für STM32G0:
+  __HAL_LINKDMA(&htim3, hdma[TIM_DMA_ID_CC2], hdma_tim3_ch2);
 }
 
 /* USER CODE BEGIN 2 */
