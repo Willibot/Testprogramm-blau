@@ -16,6 +16,7 @@
 static uint8_t ws2812b_buffer[LEDS_COUNT];
 static TIM_HandleTypeDef *ws2812b_htim = NULL;
 static TIM_TypeDef *ws2812b_timer = NULL;
+volatile uint8_t ws2812_dma_done = 0;
 
 static void set_bit(uint8_t *buffer, uint8_t byte)
 {

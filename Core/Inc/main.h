@@ -35,8 +35,11 @@ extern "C" {
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
-void SystemClock_Config(void);    // <--- Wichtig!
+void SystemClock_Config(void);
 void Error_Handler(void);
+void MX_GPIO_Init(void);
+void MX_DMA_Init(void);
+void MX_TIM3_Init(void);
 
 extern TIM_HandleTypeDef htim3;   // <--- Falls du weitere Handles hast, auch hier deklarieren
 

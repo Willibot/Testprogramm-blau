@@ -4,6 +4,13 @@
 const RGB COLOR_PINK = {255, 20, 147};
 const RGB COLOR_OFF  = {0, 0, 0};
 
+volatile uint32_t systick_ms = 0;
+
+void SystemClock_Config(void)
+{
+    // TODO: Füge hier deine Takt-Konfiguration ein, falls benötigt
+}
+
 int main(void)
 {
     HAL_Init();
@@ -31,4 +38,9 @@ int main(void)
             HAL_Delay(60);
         }
     }
+}
+
+void assert_failed(uint8_t *file, uint32_t line)
+{
+    while(1);
 }
