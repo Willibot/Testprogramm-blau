@@ -59,8 +59,12 @@ void Ws2812b_SetStrip_RGB(const RGB *color)
 
 void Ws2812b_Show_without_Delay(void)
 {
-    if (ws2812b_htim)
-        HAL_TIM_PWM_Start_DMA(ws2812b_htim, TIM_CHANNEL_2, (uint32_t*)ws2812b_buffer, LEDS_COUNT);
+    if (ws2812b_htim) {
+        HAL_DMA_DeInit(&hdma_tim3_ch2);
+        HAL_DMA_Init(&hdma_tim3_ch2);
+        HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_2, (uint32_t*)ws2812b_buffer, LEDS_COUNT);
+        __HAL_TIM_ENABLE_DMA(&htim3, TIM_DMA_CC2); // explizit DMA-Request aktivieren
+    }
 }
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)

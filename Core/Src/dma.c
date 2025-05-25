@@ -20,7 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "dma.h"
-#include "tim.h" // Damit die Handles bekannt sind
+#include "tim.h"
 
 extern DMA_HandleTypeDef hdma_tim3_ch2;
 extern TIM_HandleTypeDef htim3;
