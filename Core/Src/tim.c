@@ -26,6 +26,7 @@ void MX_TIM3_Init(void)
     sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
     sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
     HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2);
+    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 45); // 50% Dutycycle bei Period=89
 }
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim)

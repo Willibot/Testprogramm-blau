@@ -21,6 +21,7 @@ int main(void)
     MX_TIM3_Init();
 
     Ws2812b_Init(&htim3, TIM3);
+    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
 
     while (1)
     {
