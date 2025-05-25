@@ -38,17 +38,18 @@ int main(void)
     MX_DMA_Init();
     MX_TIM3_Init();
 
-    // PWM-Test: PA7 sollte jetzt ein Rechtecksignal zeigen!
-    if (HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2) != HAL_OK) {
-        // Fehler: z.B. PA11 auf HIGH setzen
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
-        while(1);
-    }
-    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 40);
+    // WS2812B initialisieren
+    Ws2812b_Init(&htim3, TIM3);
+
+    // Alle LEDs auf Pink setzen
+    Ws2812b_SetStrip_RGB(&COLOR_PINK);
+
+    // Bitmuster per DMA übertragen
+    Ws2812b_Show_without_Delay();
 
     while (1)
     {
-        // leer lassen
+        // Optional: Animation, Farbwechsel, etc.
     }
 }
 
@@ -59,6 +60,5 @@ void assert_failed(uint8_t *file, uint32_t line)
 
 void Error_Handler(void)
 {
-    // Optional: Fehleranzeige, Endlosschleife, Reset, etc.
     while(1);
 }

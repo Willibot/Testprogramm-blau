@@ -62,8 +62,8 @@ void Ws2812b_SetStrip_RGB(const RGB *color)
 
 void Ws2812b_Show_without_Delay(void)
 {
-    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
-    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 45); // 50% Dutycycle
+    ws2812_dma_done = 0;
+    HAL_TIM_PWM_Start_DMA(ws2812b_htim, TIM_CHANNEL_2, (uint32_t*)ws2812b_buffer, LEDS_COUNT);
 }
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)

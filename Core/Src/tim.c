@@ -43,3 +43,25 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
         HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
     }
 }
+
+void MX_DMA_Init(void)
+{
+    __HAL_RCC_DMA1_CLK_ENABLE();
+
+    hdma_tim3_ch2.Instance = DMA1_Channel2;
+    hdma_tim3_ch2.Init.Request = DMA_REQUEST_TIM3_CH2;
+    hdma_tim3_ch2.Init.Direction = DMA_MEMORY_TO_PERIPH;
+    hdma_tim3_ch2.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_tim3_ch2.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_tim3_ch2.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+    hdma_tim3_ch2.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+    hdma_tim3_ch2.Init.Mode = DMA_NORMAL;
+    hdma_tim3_ch2.Init.Priority = DMA_PRIORITY_HIGH;
+    HAL_DMA_Init(&hdma_tim3_ch2);
+
+    __HAL_LINKDMA(&htim3, hdma[TIM_DMA_ID_CC2], hdma_tim3_ch2);
+
+    // Optional: NVIC-Interrupt für DMA aktivieren
+    HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
+}
