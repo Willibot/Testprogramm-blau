@@ -1,6 +1,8 @@
 #include "ws2812.h"
 #include "tim.h"
 #include "dma.h"
+#include "gpio.h"
+extern DMA_HandleTypeDef hdma_tim3_ch2;
 #include <string.h>
 
 uint8_t leds_color_data[LED_CFG_BYTES_PER_LED * LED_CFG_COUNT];
